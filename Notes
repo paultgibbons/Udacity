@@ -1,0 +1,470 @@
+Notes
+
+####################
+####################
+#####          #####
+#####  UNIT 1  #####
+#####          #####
+####################
+####################
+
+
+html - the glue holding together all web pages
+hyperlinks make it web like
+
+you (browser) make requests using http to the servers
+ex browsers are chrome, ie, firefox
+servers are optimized for hosting files
+http is a simple protocol to communicate with servers
+
+try developing for as many browsers as possible
+
+images have no closing tag
+have alt and src attributes
+VOID tag
+
+whitespace is considered one space
+<br> for newline
+<br/> is cceptable, but <br> is preferred
+
+<p>paragraph</p>
+can be used as a linebreak too
+
+inline vs block
+br is inline, p is block
+span and div just contain content
+span is inline, div is block
+
+html documents
+<!DOCTYPE html> - used to be complex before html5
+<html>
+<head>
+	include metadata, css, js, title, etc
+</head>
+<body>
+	contents on the page
+</body>
+</html>
+
+####################
+####################
+#####          #####
+#####  UNIT 2  #####
+#####          #####
+####################
+####################
+
+
+url
+ex: http://www.udacity.com/
+httpis the protocol
+www.udacity.com is the host
+/ is the path (even if its not there)
+case sensitive
+
+query parameters/ GET parameters.
+? name1 = value1 & name2 = value2
+extra info, very useful, seperate from path
+used for caching
+
+#fragment
+not sent to server, in browser only
+comes after query parameters
+
+host
+:8080
+to connect, you need machine adress, and a port
+default is 80
+between host and path
+
+begins with request line
+ex: GET /foo HTTP.1.1
+has three main parts
+the method - GET
+	usually geta and post
+	post sends data to the server
+the path - /foo
+	actual docuent
+tthe version HTTP/1.1
+	mpst common for browsers now
+	http/1.0 also occurs
+
+Headers
+name: value
+Host: www.example.com
+User-Agent: browser and version info
+	user-agents are one of the most important things to know
+	ex: google bot destroys the site speed
+	ex: evil user
+capiatlization doesnt matter
+
+browser makes a request,
+server respods with a response
+request-line: GET /foo HTTP:1.1
+Response- status line: HTTP/1.1 200 OK
+responds with same version,
+status code,
+reason phrase
+
+status codes:
+200 for OK - most common, goof
+302 for found - document is somewhere else
+404 for not-found
+500 for server error
+
+2 for success
+3 for need to do something differently
+4 for browser side failure
+5 for server side failure
+
+headers for responses
+some are required, some are not
+Date: Tue Mar 2012 04:33:33 GMT
+Server: Apache/2.2.3 - should not include, easy ro hack
+Content-Type: text/html;
+content-length: 1539
+
+HTTP/1.1 connection defaults to stay open
+closing on telne is a pain
+
+servers respond to HTTP requests
+static - prewritten file
+	ex: image, text
+	how it used to be
+dynamic - made on the fly
+	almost every site is now built dynamically
+	by programs called... Web Applicatios!
+
+forms
+<form action="http://www.google.com"></form>
+action attribute-
+	chooses where form submits to
+	defaults to form
+method attribute
+	defaujlts to get
+	can be made to other methods
+can have input tags
+	can have name attribute, value attr
+	good to keep in <label>description</label> 
+	value attr for inputs is default value
+	can have attribute type:
+		default to text
+		submit - same as enter
+		password - jus prevents shoulder surfing
+		checkbox
+		radio - keep name attr the same, change values
+	<select>
+		has name attr
+		contains <option>text</option>
+		use value parameter to change what goes to url
+	</select>
+
+GET vs POST
+get:
+	parameters in url
+	get requests used for fetching documents
+	max url length (2000 characters)
+	ok to cache
+	shouldnt change the server
+post:
+	parameters included in body
+	used for updating data
+	no max length (theoretically)
+	not okay to cache
+	should change the server
+
+validation
+	bad guys exist
+	we must check what people are sending in their parameters like q=broken
+
+Python String substitutions
+	s1 = "variable"
+	"string with %s replaced" %s1
+	multiple %(s1, s2)
+
+html escaping
+	can stop ", &, <, etc
+
+use redirects
+	can add query parameters!
+
+####################
+####################
+#####          #####
+#####  UNIT 3  #####
+#####          #####
+####################
+####################
+
+
+databases
+	how ypu actually store all the info youve been collecting from users
+	sql, and gae data store
+	a program that keeps a large amount of strucured data, also the machine(s) running it
+
+Tables
+	row ex:link
+		each type is a row - one instance of info
+		each post gets a new row
+
+	columns
+		usually have ids, ints or strings
+		id, votes, date, title, url (string), user - reference to another table
+
+	we may have another table called user
+
+downsides of querying by habd:
+	error prone
+	tedious
+	slow!
+
+types:
+	relational (use sql) ex:postgresql, mysql, sqlite, oracle
+	google app engine datastore
+	Dynamo
+	NoSql
+
+SQL
+	structured query language
+	used on relational database to get info out of it
+	SELECT * FROM links WHERE id=5; (no capitalization)
+		SELECT = fetch data
+		* = all columns
+		FROM
+		links = table we are getting data from
+		WHERE
+		id=5 = constraint
+
+		* can also be a single, seeral columns
+		From links can have multiple tables to select from
+		WHERE clause
+
+in python,:
+	cursor = db.execute("select title from links")
+	for link_tuple in cursor:
+		link = Link(*link_tuple) # star selects all elements to be made arguments
+		print link.votes
+
+	SELECT * FROM links WHERE id=5 AND votes>10;
+
+More SQL
+	ORDER BY votes ASC
+		follows where clause (which is not required)
+		returns them in ascending order
+	explain analyze - put at beginning to have them tell you what happens
+	create index hotel_id on hotels(id);
+	index scan using hotel_id on hotels 
+	drop index hotel_id;
+
+Joins
+	a swl query involving multiple tables
+	not often used, they dont actually work very well
+
+
+Indexes
+	Sequential Scan - write a loop to run through links til u find it
+		but it can be slow
+	An index makes lookups faster
+	We are familiar with hash tables/dictionaries
+	increase read speeds, lower write speeds
+	consider trees- sorted indecies! but with slower indicies
+
+	hash table have constant time lookup
+	tree have log(n) time
+
+Scaling Databases
+	do if too much load
+		replicate database,
+		send requests to different databases
+		BUT
+		doesnt increase write speed,
+		replication lag (not yet written to slaves)
+	too much data
+		shard - make multiple masters
+		Some links in database x, some in y, some in z
+		BUT
+		queries are way more complex
+		range query
+		Joins become difficult or impossible
+
+		Google datastore does not allow joins or very copmlex querries
+
+ACID
+	Atomicity - all parts of a transaction works or fails together
+		i.e. everything updatdes or bothing does
+		transaction - a series of cpmmands
+	Consistency - will always work consistently
+		things will move from one transaction to the next
+		replication lag is inconsistency
+	Isolation - no transaction interferes with another
+		ex: upvote wont affect downvote
+		can be done through locking, others
+	Durability - once a transaction is committed, it wont be lost
+
+Google app engine datastore
+	tables -> entities
+		columns are not fixed in entities
+		all have an id - can be assigned automatically or manually
+		have a notion of parents/ancestors
+	SQL -> GQL
+		simplified version-
+		all queries begin with select *
+		all queries must be indexed
+	datastore is sharded and replicated (according to google)
+		so dont woory abou scaling
+		queries will be quick
+		we may need to worry about consistency
+
+.put()
+	method to put thongs into database
+	automatically assigned an id
+	id can be overridden, but you must then keep track
+	to get id,
+		p.key() {representation of post}
+		x = str(p.key().id())
+		redirect to ('/blog/%s' %x)
+
+	to retrieve, p = Post.get_by_id(post-id)
+
+url mappers
+	strings are actually regex!!
+	use parenthises to pass in as parameter
+	then in class, get takes 2 parameters
+		ex: get(self, postid)
+
+def foo(*a)
+	all unamed arguments are stored in a tuple named a
+	can also break down dictionaries/lists
+	**kw for all known arguments
+
+web frameworks
+	piece of program that is speaking http
+	django does more for you
+	ruby on rails is really popular (like django, hides 
+								lots of things from you)
+
+yaml
+	configuration file used by app engine
+	must declre libraries you want to use
+
+managing code
+	one folder for templates
+	one for styles
+	one for python controllers
+	database files are in their own
+	utility files
+
+####################
+####################
+#####          #####
+#####  UNIT 4  #####
+#####          #####
+####################
+####################
+
+All about
+	authentication , user logins , security
+	cookies
+	passwords, hashing, securing
+
+Cookies
+	small pieces of data stored in the browser for a website
+	ex: user_id = 12345
+	browser makes a request, server semds back a cookie
+	next time you go there, you send back the cookie
+	usually 20 cookies/website (browser limitation)
+	must be associated with a particular domain
+
+	can be used for logining in info, avoiding dbs,
+		tracking you for ads, etc
+	cookies can die at any time, only for one browser
+		so dont store user info
+
+	given in http headers:
+		Response
+		Set-Cookie: name=value
+		Set-Cookie: name2=value2
+
+		Requests:
+		cookie: name=value; name2=value2
+
+	extra parametrs:
+		expires time - remember me will set an expires parameter
+			if not present, will get deleted when closing browser
+		path it is relevant to - default is /
+		domain - must have at least two periods ex: .reddit.com
+			my domain cannot set cookies to other domains
+			if at www.reddit.com cant st for bar.reddit.com or www.google.com
+			can work for .reddit.com
+			must end withgiven domain
+			domain you set it for is very important
+	case doesn't (shouldn't) matter
+	to set cookies, use the set cookie header!
+
+Ad Networks
+	1 pixel image in html server sends linking to google.com
+	that next party can then send you a cookie
+	good for google analytics
+	also very bad - google 1 pixel images are very popular
+	google knows things about you
+	so they can send you more relevant ads
+	there are ones uch more shady then google...
+
+Cookie cheatin:
+	you can edit the cookie in your browser
+	in javascript, document.cookie gives you the cookies
+	and you can set it manually...
+	to prevent cheaters:
+	use hashing!
+	a hash is a function that when applied to x yields y
+	h(x) -> y
+	x is data, y is a fixed length bit string
+	very difficult to find an x for y, or guess an x for y
+	cant modify x without greatly changing y
+	the whole idea is a unique x gives you a y, you can go backwards
+	cs 387, applied crytography
+	collisions should be hard to find
+	dont write your own. Popolar ones are
+		crc32 - checksums, fast
+		md5 - fast, used to be secure
+		sha1 - fairly secure
+		sha256 - preeetty good
+
+		fast at top, secure at bottom
+	tradeoff security and speed
+	use hashlib for python
+
+	Set-Cookie: visits = 5,[hash]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

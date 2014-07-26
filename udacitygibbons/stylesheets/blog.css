@@ -1,0 +1,22 @@
+body {
+    font-family: Helvetica;
+    width: 800px;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+hr {
+    margin: 20px auto;
+}
+
+.post + .post {
+    margin-top: 20px;
+}
+.post_title {
+    font-weight: bold;
+    font-size: 20px;
+}
+.post_body {
+    margin: 0;
+    font-size: 17px;
+}
